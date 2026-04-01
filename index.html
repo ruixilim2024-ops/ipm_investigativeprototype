@@ -948,59 +948,36 @@ heritage (CR) relatively intact.</div>
        DATA EXPORT PANEL
   ══════════════════════════════════ -->
   <div id="export-panel" style="margin-top:1.5rem;background:var(--ink);color:var(--bg);border-radius:var(--r);padding:1.5rem 2rem;">
-
-    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:1rem;">
-      <div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(247,245,240,0.4);margin-bottom:4px;">Research data export</div>
-        <div style="font-family:'Instrument Serif',serif;font-size:1.1rem;color:#fff;">Save your response row</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button onclick="copyCSVRow()" id="btn-copy" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 16px;background:rgba(255,255,255,0.08);color:rgba(247,245,240,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;">COPY ROW</button>
-        <button onclick="downloadCSV()" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 16px;background:var(--tension);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;">DOWNLOAD CSV</button>
-        <button onclick="sendToSheets()" id="btn-sheets" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 16px;background:rgba(45,106,74,0.6);color:#fff;border:1px solid rgba(45,106,74,0.4);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;">SEND TO SHEETS ↗</button>
+    <div style="margin-bottom:1.1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(247,245,240,0.4);margin-bottom:4px;">Research data export</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:1.1rem;color:#fff;margin-bottom:0.35rem;">Save your response row</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.4);line-height:1.7;">Copy or download your computed scores as a CSV row, then paste into the shared master sheet your researcher has sent you. Each submission is one row — do not modify the values.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;">
+      <button onclick="copyCSVRow()" id="btn-copy" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;padding:11px 22px;background:var(--tension);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;flex:1;min-width:140px;">COPY ROW TO CLIPBOARD</button>
+      <button onclick="downloadCSV()" id="btn-download" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;padding:11px 22px;background:rgba(255,255,255,0.08);color:rgba(247,245,240,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;flex:1;min-width:140px;">DOWNLOAD AS CSV</button>
+    </div>
+    <div style="background:rgba(0,0,0,0.2);border-radius:var(--r-sm);padding:1rem 1.25rem;margin-bottom:1.1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);letter-spacing:0.08em;margin-bottom:8px;">HOW TO SUBMIT YOUR DATA</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.6);line-height:2.1;">
+        1. Click <b style="color:rgba(247,245,240,0.85);">COPY ROW TO CLIPBOARD</b> above<br/>
+        2. Open the shared Google Sheet (link from your researcher)<br/>
+        3. Click the first empty cell in column A at the bottom of the data<br/>
+        4. Paste with <b style="color:rgba(247,245,240,0.85);">Ctrl+V</b> (Windows) or <b style="color:rgba(247,245,240,0.85);">Cmd+V</b> (Mac)<br/>
+        5. The 22 columns will fill automatically — do not add or remove cells<br/>
+        <span style="color:rgba(247,245,240,0.3);">If copy fails, use DOWNLOAD AS CSV and email the file to your researcher.</span>
       </div>
     </div>
-
-    <!-- CSV preview -->
-    <div style="margin-bottom:1rem;">
-      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);letter-spacing:0.08em;margin-bottom:6px;">DATA ROW PREVIEW</div>
-      <div id="csv-preview" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.65);background:rgba(0,0,0,0.25);border-radius:var(--r-sm);padding:10px 14px;line-height:1.9;word-break:break-all;white-space:pre-wrap;">—</div>
+    <div style="margin-bottom:0.5rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.3);letter-spacing:0.08em;margin-bottom:6px;">YOUR DATA ROW (22 columns)</div>
+      <div id="csv-preview" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.55);background:rgba(0,0,0,0.25);border-radius:var(--r-sm);padding:10px 14px;line-height:1.9;white-space:pre-wrap;">—</div>
     </div>
 
-    <!-- Google Sheets setup -->
-    <details style="margin-top:0.5rem;">
-      <summary style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:rgba(247,245,240,0.4);cursor:pointer;user-select:none;padding:6px 0;">▸ Google Sheets backend setup (click to expand)</summary>
-      <div style="margin-top:1rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:var(--r-sm);">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.55);line-height:2;">
-          <b style="color:rgba(247,245,240,0.8);">Step 1</b> — Create a new Google Sheet. Row 1 should be the header row (auto-created on first POST).<br/>
-          <b style="color:rgba(247,245,240,0.8);">Step 2</b> — In Google Sheets, go to <b>Extensions → Apps Script</b> and paste the script below.<br/>
-          <b style="color:rgba(247,245,240,0.8);">Step 3</b> — Deploy as a Web App: <b>Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone</b>.<br/>
-          <b style="color:rgba(247,245,240,0.8);">Step 4</b> — Copy the Web App URL and paste it into the field below.
-        </div>
-        <div style="margin-top:1rem;">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);margin-bottom:6px;letter-spacing:0.08em;">APPS SCRIPT — paste into Extensions → Apps Script</div>
-          <pre id="apps-script-code" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.7);background:rgba(0,0,0,0.3);border-radius:var(--r-sm);padding:12px;overflow-x:auto;white-space:pre;line-height:1.7;">function doPost(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = JSON.parse(e.postData.contents);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(Object.keys(data));
-  }
-  sheet.appendRow(Object.values(data));
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}</pre>
-          <button onclick="copyAppsScript()" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;padding:5px 12px;background:rgba(255,255,255,0.07);color:rgba(247,245,240,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-sm);cursor:pointer;margin-top:6px;" id="btn-copy-script">COPY SCRIPT</button>
-        </div>
-        <div style="margin-top:1rem;">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);margin-bottom:6px;letter-spacing:0.08em;">YOUR WEB APP URL</div>
-          <div style="display:flex;gap:8px;">
-            <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/…/exec"
-              style="flex:1;font-family:'IBM Plex Mono',monospace;font-size:11px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.12);color:rgba(247,245,240,0.85);border-radius:var(--r-sm);padding:8px 10px;"/>
-            <button onclick="saveSheetsUrl()" style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:8px 14px;background:var(--eng-mid);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;white-space:nowrap;">SAVE URL</button>
-          </div>
-          <div id="sheets-url-status" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.4);margin-top:6px;"></div>
-        </div>
+    <details style="margin-top:0.75rem;">
+      <summary style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:rgba(247,245,240,0.35);cursor:pointer;user-select:none;padding:6px 0;">▸ For researchers — seed your master sheet</summary>
+      <div style="margin-top:0.75rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:var(--r-sm);">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.5);line-height:1.9;margin-bottom:0.75rem;">Download the header row and paste it into Row 1 of your master Google Sheet before distributing the form. Share the sheet with respondents (Editor access) so they can paste their row directly, or collect CSV files and paste rows yourself.<br/><br/>Columns: <span style="color:rgba(247,245,240,0.75);">timestamp · respondent_id · lang_EL · lang_MT · T · CR_raw · iLHI_raw · quadrant · LA · AA_gap · SA_gap · AoE_gap · FoU_gap · BAI_behav · grade_EL · grade_MT · grade_HMT · aoe_EL · aoe_MT · moe_track · mtl_experience · cohort</span></div>
+        <button onclick="downloadHeader()" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 18px;background:var(--eng-mid);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;">DOWNLOAD HEADER ROW CSV</button>
       </div>
     </details>
 
@@ -1572,74 +1549,20 @@ function downloadCSV(){
   setStatus('CSV downloaded — send the file to your research coordinator or paste the data row into the master sheet.');
 }
 
-function saveSheetsUrl(){
-  const url = document.getElementById('sheets-url').value.trim();
-  if(!url || !url.startsWith('https://script.google.com')){
-    document.getElementById('sheets-url-status').textContent = '⚠ URL should start with https://script.google.com/macros/…';
-    return;
-  }
-  localStorage.setItem('bai_sheets_url', url);
-  document.getElementById('sheets-url-status').textContent = '✓ URL saved in this browser.';
-}
-
-async function sendToSheets(){
-  // load saved URL if present
-  const saved = localStorage.getItem('bai_sheets_url');
-  if(saved && !document.getElementById('sheets-url').value){
-    document.getElementById('sheets-url').value = saved;
-  }
-  const url = document.getElementById('sheets-url').value.trim();
-  if(!url){
-    setStatus('⚠ Paste your Apps Script Web App URL in the Sheets setup section below first.');
-    // open the details
-    document.querySelector('#export-panel details').open = true;
-    return;
-  }
-  if(!window._baiData){ setStatus('Generate profile first.'); return; }
-
-  const btn = document.getElementById('btn-sheets');
-  btn.textContent = 'SENDING…';
-  btn.disabled = true;
-  setStatus('Sending to Google Sheets…');
-
-  try {
-    // Google Apps Script doPost requires no-cors mode when called from a file://
-    // Using a form-encoded body with fetch in no-cors gives us a silent success;
-    // the script writes to the sheet regardless.
-    await fetch(url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(window._baiData)
-    });
-    btn.textContent = 'SENT ✓';
-    setStatus('Response sent to Google Sheets. Check your sheet for the new row.');
-    setTimeout(()=>{btn.textContent='SEND TO SHEETS ↗';btn.disabled=false;}, 4000);
-  } catch(err) {
-    btn.textContent = 'SEND TO SHEETS ↗';
-    btn.disabled = false;
-    setStatus('Network error: ' + err.message + '. Use COPY ROW or DOWNLOAD CSV instead.');
-  }
-}
-
-function copyAppsScript(){
-  const code = document.getElementById('apps-script-code').textContent;
-  navigator.clipboard.writeText(code).then(()=>{
-    const btn = document.getElementById('btn-copy-script');
-    btn.textContent = 'COPIED ✓';
-    setTimeout(()=>btn.textContent='COPY SCRIPT', 2000);
-  });
+function downloadHeader(){
+  const csv = CSV_HEADERS.join(',') + '\n';
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'BAI_master_sheet_header.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function setStatus(msg){
   document.getElementById('export-status').textContent = msg;
 }
-
-// restore saved sheets URL on load
-window.addEventListener('DOMContentLoaded', ()=>{
-  const saved = localStorage.getItem('bai_sheets_url');
-  if(saved) document.getElementById('sheets-url').value = saved;
-});
 </script>
 </body>
 </html>
