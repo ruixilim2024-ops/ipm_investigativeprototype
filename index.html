@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Bilingual Asymmetry Index v4 — SMU IPM Group 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#F7F5F0;
+  --bg2:#EFECE5;
+  --bg3:#E6E2D8;
+  --surface:#FFFFFF;
+  --ink:#1C1A16;
+  --ink2:#6B6760;
+  --ink3:#A8A49A;
+  --border:rgba(28,26,22,0.10);
+  --border2:rgba(28,26,22,0.05);
+  --eng:#1A3A2A;
+  --eng-mid:#2D6A4A;
+  --eng-light:#E8F2EC;
+  --mt:#3A1A1A;
+  --mt-mid:#8B3A3A;
+  --mt-light:#F2E8E8;
+  --gold:#8B6914;
+  --gold-light:#FBF3E0;
+  --purple:#3A2A5A;
+  --purple-mid:#7B5EA7;
+  --purple-light:#EDE8F5;
+  --tension:#C94A2A;
+  --tension-light:#FCEEE9;
+  --neutral:#4A4540;
+  --r:8px;
+  --r-sm:4px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.65;}
+
+/* BANNER */
+.banner{background:var(--ink);color:var(--bg);padding:10px 2rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.banner-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;background:var(--gold);color:var(--ink);padding:3px 9px;border-radius:999px;}
+.banner-text{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.6);letter-spacing:0.03em;}
+
+/* HEADER */
+header{max-width:860px;margin:0 auto;padding:5rem 2rem 3rem;}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.25rem;}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.05;font-weight:400;color:var(--ink);margin-bottom:1.5rem;}
+h1 em{font-style:italic;color:var(--tension);}
+.header-desc{font-size:14px;color:var(--ink2);max-width:560px;line-height:1.85;margin-bottom:2rem;}
+
+.sub-indices{display:flex;flex-wrap:wrap;gap:10px;}
+.si-chip{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--surface);font-size:12px;}
+.si-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.si-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.06em;color:var(--ink2);}
+
+/* PART DIVIDER */
+.part-divider{max-width:860px;margin:2rem auto 0;padding:0 2rem;}
+.part-banner{background:var(--ink);color:var(--bg);border-radius:var(--r) var(--r) 0 0;padding:1rem 1.5rem;display:flex;align-items:baseline;gap:1rem;}
+.part-num{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(247,245,240,0.4);}
+.part-title{font-family:'Instrument Serif',serif;font-size:1.35rem;color:#fff;font-weight:400;}
+.part-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.45);margin-top:2px;}
+.part-body{background:var(--bg2);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);padding:0.6rem 1.5rem;font-size:12px;color:var(--ink3);font-style:italic;line-height:1.65;margin-bottom:2rem;}
+
+/* PROGRESS */
+.prog-bar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 2rem;}
+.prog-inner{max-width:860px;margin:0 auto;height:38px;display:flex;align-items:center;gap:14px;}
+.prog-track{flex:1;height:2px;background:var(--border);border-radius:999px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--tension);border-radius:999px;width:0%;transition:width 0.3s ease;}
+.prog-txt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;min-width:52px;text-align:right;}
+
+/* MAIN */
+main{max-width:860px;margin:0 auto;padding:0 2rem 8rem;}
+
+/* SECTION WRAPPER */
+.sec{margin-bottom:3rem;opacity:0;transform:translateY(10px);animation:up 0.45s ease forwards;}
+@keyframes up{to{opacity:1;transform:translateY(0);}}
+.sec:nth-child(1){animation-delay:.04s}.sec:nth-child(2){animation-delay:.08s}
+.sec:nth-child(3){animation-delay:.12s}.sec:nth-child(4){animation-delay:.16s}
+.sec:nth-child(5){animation-delay:.20s}.sec:nth-child(6){animation-delay:.24s}
+.sec:nth-child(7){animation-delay:.28s}.sec:nth-child(8){animation-delay:.32s}
+.sec:nth-child(9){animation-delay:.36s}.sec:nth-child(10){animation-delay:.40s}
+.sec:nth-child(11){animation-delay:.44s}.sec:nth-child(12){animation-delay:.48s}
+
+/* SECTION HEADER */
+.sec-head{display:flex;align-items:flex-start;gap:0;margin-bottom:0;}
+.sec-left{width:220px;flex-shrink:0;padding-right:2rem;padding-top:2px;}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.08em;display:block;margin-bottom:4px;}
+.sec-title{font-family:'Instrument Serif',serif;font-size:1.15rem;font-weight:400;color:var(--ink);line-height:1.3;}
+.sec-badge{display:inline-block;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;padding:2px 8px;border-radius:999px;}
+.badge-la{background:var(--gold-light);color:var(--gold);border:1px solid rgba(139,105,20,0.2);}
+.badge-cp{background:var(--tension-light);color:var(--tension);border:1px solid rgba(201,74,42,0.2);}
+.badge-gen{background:var(--bg3);color:var(--ink3);border:1px solid var(--border);}
+.sec-right{flex:1;}
+
+/* ALGO BOX */
+.algo{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1rem;}
+.algo-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.6rem;}
+.algo-formula{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);line-height:1.7;white-space:pre-wrap;}
+.algo-note{font-size:12px;color:var(--ink3);margin-top:0.5rem;line-height:1.6;font-style:italic;}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:0.75rem;}
+.card-q{font-size:13px;color:var(--ink2);margin-bottom:1rem;line-height:1.7;font-style:italic;}
+
+/* INPUTS */
+select,input[type=number],input[type=text]{
+  width:100%;padding:9px 12px;
+  font-family:'Instrument Sans',sans-serif;font-size:13px;
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  background:var(--bg);color:var(--ink);
+  transition:border-color 0.15s;
+}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23A8A49A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer;}
+select:focus,input:focus{outline:none;border-color:var(--tension);}
+input[type=number]{font-family:'IBM Plex Mono',monospace;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.field-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);letter-spacing:0.06em;margin-bottom:5px;text-transform:uppercase;}
+
+/* SLIDERS */
+.slider-block{margin-bottom:1.1rem;}
+.slider-block:last-child{margin-bottom:0;}
+.slider-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.slider-name{font-size:13px;color:var(--ink2);font-style:italic;}
+.slider-val{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink);}
+input[type=range]{width:100%;height:2px;background:var(--border);border-radius:999px;appearance:none;cursor:pointer;margin-bottom:3px;}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:15px;height:15px;border-radius:50%;background:var(--eng-mid);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--eng-mid);cursor:pointer;transition:transform 0.12s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.25);}
+input[type=range].mt-range::-webkit-slider-thumb{background:var(--mt-mid);box-shadow:0 0 0 1px var(--mt-mid);}
+input[type=range].purple-range::-webkit-slider-thumb{background:var(--purple-mid);box-shadow:0 0 0 1px var(--purple-mid);}
+input[type=range].gold-range::-webkit-slider-thumb{background:var(--gold);box-shadow:0 0 0 1px var(--gold);}
+.slider-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--ink3);font-family:'IBM Plex Mono',monospace;}
+
+/* LIKERT 5-POINT */
+.likert5{display:flex;flex-direction:column;gap:0;}
+.l5-row{display:grid;grid-template-columns:1fr repeat(5,36px);align-items:center;gap:6px;padding:8px 0;border-bottom:1px solid var(--border2);}
+.l5-row:last-child{border-bottom:none;}
+.l5-q{font-size:12px;color:var(--ink2);font-style:italic;line-height:1.45;padding-right:8px;}
+.l5-cell{display:flex;align-items:center;justify-content:center;}
+.l5-cell input[type=radio]{display:none;}
+.l5-cell label{display:block;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all 0.12s;}
+.l5-cell label:hover{border-color:var(--ink3);}
+.likert5.eng-likert .l5-cell label.sel{background:var(--eng-mid);border-color:var(--eng-mid);}
+.likert5.mt-likert .l5-cell label.sel{background:var(--mt-mid);border-color:var(--mt-mid);}
+.likert5.purple-likert .l5-cell label.sel{background:var(--purple-mid);border-color:var(--purple-mid);}
+.l5-header{display:grid;grid-template-columns:1fr repeat(5,36px);gap:6px;padding:0 0 6px;border-bottom:1px solid var(--border);margin-bottom:2px;}
+.l5-hcell{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);text-align:center;letter-spacing:0.04em;}
+.l5-hlbl{font-size:10px;color:var(--ink3);font-style:italic;}
+
+/* BIPOLAR LIKERT */
+.bipolar-wrap{margin-bottom:0.85rem;}
+.bipolar-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border2);}
+.bipolar-row:last-child{border-bottom:none;}
+.bipolar-q-mt{font-size:12px;color:var(--mt-mid);font-style:italic;text-align:right;line-height:1.4;}
+.bipolar-q-eng{font-size:12px;color:var(--eng-mid);font-style:italic;text-align:left;line-height:1.4;}
+.bipolar-scale{display:flex;gap:4px;align-items:center;}
+.bipolar-scale input[type=radio]{display:none;}
+.bipolar-scale label{display:block;border-radius:50%;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all 0.12s;}
+.bipolar-scale label:hover{border-color:var(--ink3);}
+.bp-n2 label{width:24px;height:24px;}
+.bp-n1 label{width:20px;height:20px;}
+.bp-0 label{width:16px;height:16px;}
+.bp-p1 label{width:20px;height:20px;}
+.bp-p2 label{width:24px;height:24px;}
+.bp-n2 label.sel,.bp-n1 label.sel{background:var(--mt-mid);border-color:var(--mt-mid);}
+.bp-0 label.sel{background:var(--ink3);border-color:var(--ink3);}
+.bp-p1 label.sel,.bp-p2 label.sel{background:var(--eng-mid);border-color:var(--eng-mid);}
+
+/* PILLS */
+.pill-group{display:flex;flex-wrap:wrap;gap:7px;margin-top:0.5rem;}
+.pill-group label{cursor:pointer;font-size:12px;padding:5px 13px;border:1px solid var(--border);border-radius:999px;color:var(--ink2);background:var(--bg);transition:all 0.12s;user-select:none;font-style:italic;}
+.pill-group label:hover{border-color:var(--ink3);}
+.pill-group input[type=radio]{display:none;}
+.pill-group.gen-pills label:has(input:checked){background:var(--tension-light);color:var(--tension);border-color:rgba(201,74,42,0.3);}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:2.5rem 0;}
+
+/* SUBMIT */
+.submit-wrap{text-align:center;padding:1rem 0;}
+.btn-go{font-family:'Instrument Sans',sans-serif;font-size:14px;font-weight:500;padding:13px 40px;background:var(--ink);color:var(--bg);border:none;border-radius:var(--r-sm);cursor:pointer;letter-spacing:0.01em;transition:all 0.2s;}
+.btn-go:hover{background:var(--tension);transform:translateY(-1px);}
+.err-msg{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--mt-mid);margin-top:10px;display:none;letter-spacing:0.03em;}
+
+/* ══════════════════ RESULTS ══════════════════ */
+#results{display:none;margin-top:5rem;padding-top:3rem;border-top:2px solid var(--ink);}
+.res-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:2rem;}
+
+/* TENSION HERO */
+.tension-hero{background:var(--ink);color:var(--bg);border-radius:var(--r) var(--r) 0 0;padding:1.25rem 2rem 0.75rem;}
+.tension-hero-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(247,245,240,0.45);}
+.tension-hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;}
+.th-cell{padding:1rem 2rem 1.5rem;display:flex;flex-direction:column;gap:4px;}
+.th-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;}
+.th-score{font-family:'Instrument Serif',serif;font-size:3.8rem;line-height:1;color:#fff;}
+.th-formula{font-family:'IBM Plex Mono',monospace;font-size:9px;}
+.th-tag{font-size:11px;margin-top:4px;font-style:italic;}
+
+/* QUADRANT SVG BLOCK */
+.quad-svg-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem;}
+.quad-svg-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.4rem;}
+.quad-svg-sub{font-size:12px;color:var(--ink3);font-style:italic;margin-bottom:1.25rem;}
+
+/* QUADRANT STRIP */
+.quad-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:1rem;}
+.quad-cell{padding:0.75rem;border-radius:var(--r-sm);border:1px solid var(--border);position:relative;transition:all 0.2s;}
+.quad-cell.active{border-width:2px;}
+.quad-cell-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px;}
+.quad-cell-name{font-family:'Instrument Serif',serif;font-size:0.9rem;font-weight:400;margin-bottom:3px;line-height:1.2;}
+.quad-cell-sub{font-size:10px;color:var(--ink3);line-height:1.4;font-style:italic;}
+.quad-active-marker{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;display:none;}
+.quad-cell.active .quad-active-marker{display:block;}
+
+/* quadrant colour themes — matched to your new taxonomy */
+.quad-hc-mt{background:var(--eng-light);}
+.quad-hc-mt.active{border-color:var(--eng-mid);}
+.quad-hc-mt .quad-cell-label{color:var(--eng-mid);}
+.quad-hc-mt .quad-active-marker{background:var(--eng-mid);}
+
+.quad-assim{background:var(--gold-light);}
+.quad-assim.active{border-color:var(--gold);}
+.quad-assim .quad-cell-label{color:var(--gold);}
+.quad-assim .quad-active-marker{background:var(--gold);}
+
+.quad-rooted{background:var(--bg2);}
+.quad-rooted.active{border-color:var(--ink3);}
+.quad-rooted .quad-cell-label{color:var(--ink3);}
+.quad-rooted .quad-active-marker{background:var(--ink3);}
+
+.quad-cross{background:var(--purple-light);}
+.quad-cross.active{border-color:var(--purple-mid);}
+.quad-cross .quad-cell-label{color:var(--purple-mid);}
+.quad-cross .quad-active-marker{background:var(--purple-mid);}
+
+/* SPECTRUM BAR */
+.spectrum-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem;}
+.spec-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.1rem;}
+.spec-row{margin-bottom:1rem;}
+.spec-row:last-child{margin-bottom:0;}
+.spec-row-head{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;}
+.spec-row-label{color:var(--ink2);font-style:italic;}
+.spec-row-val{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink);}
+.spec-track{height:6px;background:linear-gradient(to right,var(--mt-mid),var(--bg3) 50%,var(--eng-mid));border-radius:999px;position:relative;}
+.spec-marker{position:absolute;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--ink3);}
+.spec-ends{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);margin-top:3px;}
+
+/* TENSION TRACK */
+.tension-track{height:6px;background:linear-gradient(to right,var(--bg3),var(--gold) 40%,var(--tension));border-radius:999px;position:relative;margin-bottom:3px;}
+.tension-ends{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);margin-top:3px;}
+
+/* INTERPRETATION PANELS */
+.interp{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1rem;}
+.interp-head{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding-bottom:0.75rem;border-bottom:1px solid var(--border);margin-bottom:1rem;}
+.interp-head.cp-head{color:var(--tension);}
+.interp-head.la-head{color:var(--gold);}
+.interp-head.reg-head{color:var(--ink3);}
+.interp-text{font-size:13px;color:var(--ink2);line-height:1.85;font-style:italic;}
+.flag-box{margin-top:1rem;padding:0.75rem 1rem;border-radius:var(--r-sm);font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.65;letter-spacing:0.02em;display:none;}
+.flag-warn{background:var(--gold-light);color:var(--gold);border-left:2px solid var(--gold);}
+.flag-alert{background:var(--mt-light);color:var(--mt-mid);border-left:2px solid var(--mt-mid);}
+.flag-good{background:var(--eng-light);color:var(--eng-mid);border-left:2px solid var(--eng-mid);}
+.flag-tension{background:var(--tension-light);color:var(--tension);border-left:2px solid var(--tension);}
+
+/* ALGORITHM FOOTNOTE */
+.algo-footer{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-top:1.5rem;}
+.algo-footer-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:0.75rem;}
+.algo-footer-formula{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink2);line-height:2;white-space:pre-wrap;}
+
+/* FOOTER */
+footer{max-width:860px;margin:0 auto;padding:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.foot-l{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink3);line-height:1.7;letter-spacing:0.04em;}
+.foot-r{font-family:'Instrument Serif',serif;font-size:13px;color:var(--ink3);font-style:italic;text-align:right;}
+
+@media(max-width:680px){
+  header{padding:3rem 1.25rem 2rem;}
+  main{padding:0 1.25rem 5rem;}
+  .sec-head{flex-direction:column;}
+  .sec-left{width:100%;padding-right:0;padding-bottom:0.75rem;}
+  .two-col,.three-col{grid-template-columns:1fr;}
+  .tension-hero-grid{grid-template-columns:1fr;}
+  .quad-strip{grid-template-columns:1fr 1fr;}
+  .l5-row{grid-template-columns:1fr repeat(5,28px);}
+  footer{flex-direction:column;align-items:flex-start;}
+  .foot-r{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <span class="banner-pill">Demo</span>
+  <span class="banner-text">SMU Interdisciplinary Perspectives and Methods · Group 4 · Research prototype · No data collected or stored</span>
+</div>
+
+<header>
+  <div class="eyebrow">Bilingual Asymmetry Index · v4.0</div>
+  <h1>How does your bilingual<br>education shape your<br><em>identity tension?</em></h1>
+  <p class="header-desc">A psycholinguistic profiling instrument examining MOE's bilingual policy through two lenses: language acquisition (academic ability, self-assessment, age of exposure, and frequency of use) and cultural proximity (cultural resonance and internal language hierarchy). The key outcome is a tension score derived from the gap between these two identity dimensions.</p>
+  <div class="sub-indices">
+    <div class="si-chip"><div class="si-dot" style="background:var(--gold);"></div><span class="si-label">Part 1 — Language Acquisition (LA)</span></div>
+    <div class="si-chip"><div class="si-dot" style="background:var(--tension);"></div><span class="si-label">Part 2 — Cultural Proximity (CP) → Tension Score T</span></div>
+    <div class="si-chip"><div class="si-dot" style="background:var(--ink);"></div><span class="si-label">Regression: LA ~ T</span></div>
+  </div>
+</header>
+
+<div class="prog-bar">
+  <div class="prog-inner">
+    <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+    <div class="prog-txt" id="prog-txt">0 / 9</div>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     PART 1 — LANGUAGE ACQUISITION
+══════════════════════════════════════════════ -->
+<div class="part-divider">
+  <div class="part-banner">
+    <span class="part-num">Part 01</span>
+    <span class="part-title">Language Acquisition</span>
+  </div>
+  <div class="part-body">Academic ability (AA), self-assessment (SA), age of exposure (AoE, mild weight), and frequency of use (FoU) are the four acquisition dimensions. These will be regressed against the tension score derived in Part 2.</div>
+</div>
+
+<!-- ══ S1: LANGUAGE PAIR ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">01</span>
+      <div class="sec-title">Language Pair</div>
+      <span class="sec-badge badge-gen">Setup</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Purpose</div>
+        <div class="algo-formula">Establishes L1 (primary) and L2 (secondary).
+All gap scores are computed as: Score_EL − Score_MT
+Positive values → English-dominant
+Negative values → MT-dominant</div>
+      </div>
+      <div class="card">
+        <div class="two-col">
+          <div><div class="field-lbl">Primary language (L1)</div>
+            <select id="lang1">
+              <option value="">Select —</option>
+              <option value="english">Standard English</option>
+              <option value="singlish">Singlish</option>
+              <option value="mandarin">Mandarin</option>
+              <option value="malay">Malay</option>
+              <option value="tamil">Tamil</option>
+              <option value="hokkien">Hokkien / Teochew</option>
+              <option value="cantonese">Cantonese</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div><div class="field-lbl">Secondary language (L2)</div>
+            <select id="lang2">
+              <option value="">Select —</option>
+              <option value="english">Standard English</option>
+              <option value="singlish">Singlish</option>
+              <option value="mandarin">Mandarin</option>
+              <option value="malay">Malay</option>
+              <option value="tamil">Tamil</option>
+              <option value="hokkien">Hokkien / Teochew</option>
+              <option value="cantonese">Cantonese</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S2: AA ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">02</span>
+      <div class="sec-title">Academic Ability</div>
+      <span class="sec-badge badge-la">LA — Academic</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Algorithm — AA (primary weight in LA)</div>
+        <div class="algo-formula">Grade points: A1=9, A2=8, B3=7, B4=6,
+  C5=5, C6=4, D7=3, E8=2, F9=1
+
+English weighted ×1.1 (inherent difficulty)
+HMT: 10% of HMT grade points added
+  (HMT has same A1–F9 grading scale)
+Dmax = 8.9 (max possible scale difference)
+
+AA_gap = (1.1·G_EL − (G_MT + 0.1·G_HMT))
+         ÷ 8.9
+Range: asymmetric — MT dominance → −0.99
+                    EL dominance  → +1.00</div>
+        <div class="algo-note">O-level grades are used over A-level: GP cannot isolate pure language ability, and only ~30% of a P1 cohort sits A-levels. HMT grade points receive a 10% weighting — rewarding genuine additional achievement without over-correcting the English–MT structural gap encoded in the MOE system.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">Select your O-level (or equivalent) grades. If you took Higher Mother Tongue, select your HMT grade separately — its grade points receive a 10% weighting in the computation.</div>
+        <div class="three-col" style="margin-bottom:0.5rem;">
+          <div>
+            <div class="field-lbl">English Language — O-level grade</div>
+            <select id="grade-el">
+              <option value="0">Did not sit / N/A</option>
+              <option value="9">A1</option><option value="8">A2</option>
+              <option value="7">B3</option><option value="6">B4</option>
+              <option value="5">C5</option><option value="4">C6</option>
+              <option value="3">D7</option><option value="2">E8</option><option value="1">F9</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-lbl" id="grade-mt-lbl">Mother Tongue — O-level grade</div>
+            <select id="grade-mt">
+              <option value="0">Did not sit / N/A</option>
+              <option value="9">A1</option><option value="8">A2</option>
+              <option value="7">B3</option><option value="6">B4</option>
+              <option value="5">C5</option><option value="4">C6</option>
+              <option value="3">D7</option><option value="2">E8</option><option value="1">F9</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-lbl">Higher MT (HMT) grade — if taken</div>
+            <select id="grade-hmt">
+              <option value="0">Did not take HMT</option>
+              <option value="9">A1</option><option value="8">A2</option>
+              <option value="7">B3</option><option value="6">B4</option>
+              <option value="5">C5</option><option value="4">C6</option>
+              <option value="3">D7</option><option value="2">E8</option><option value="1">F9</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S3: SA ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">03</span>
+      <div class="sec-title">Self-Assessment</div>
+      <span class="sec-badge badge-la">LA — Self-Assessed</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Algorithm — SA (secondary weight in LA)</div>
+        <div class="algo-formula">4 modalities rated 1–5:
+  Speaking, Writing, Listening, Comprehension
+
+S̄A_EL = (S + W + L + C)_EL / 20
+S̄A_MT = (S + W + L + C)_MT / 20
+Each ∈ [0.2, 1.0]
+
+SA_gap = (S̄A_EL − S̄A_MT) / 0.8
+Range: [−1, +1]
+
+LA_gap = 0.7·AA_gap + 0.3·SA_gap
+Range: [−1, +1]</div>
+        <div class="algo-note">SA receives a 30% weight — lower than AA — because self-assessment systematically overestimates L1 and underestimates L2. Formal grades provide the objective anchor; SA captures modality-level nuance not visible in a single grade.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">Rate your own ability in each modality. 1 = very weak, 5 = native-like fluency.</div>
+        <div class="l5-header">
+          <div class="l5-hlbl">Modality</div>
+          <div class="l5-hcell">1</div><div class="l5-hcell">2</div>
+          <div class="l5-hcell">3</div><div class="l5-hcell">4</div><div class="l5-hcell">5</div>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--eng-mid);margin-bottom:6px;" id="sa-el-label">English / L1</div>
+          <div class="likert5 eng-likert" id="sa-el-table"></div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--mt-mid);margin-bottom:6px;" id="sa-mt-label">Mother Tongue / L2</div>
+          <div class="likert5 mt-likert" id="sa-mt-table"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4: AoE (mild) ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">04</span>
+      <div class="sec-title">Age of Exposure</div>
+      <span class="sec-badge badge-la">LA — mild weight</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Algorithm — AoE (mild contextual factor in LA)</div>
+        <div class="algo-formula">Age bracket → discrete score:
+  0–2 yrs  → 4  (native embedding)
+  3–6 yrs  → 3  (early / pre-school)
+  7–12 yrs → 2  (primary school)
+  13+ yrs  → 1  (post-critical period)
+
+AoE_gap = (AoE_EL − AoE_MT) / 4
+Range: [−1, +1]
+
+AoE enters LA as a mild contextual factor —
+it predicts likely depth of neural encoding
+but is not a direct measure of competence.</div>
+        <div class="algo-note">Earlier acquisition predicts deeper affective parity with L1 and lower metalinguistic distance, but does not override demonstrated proficiency. AoE is given mild weight in LA to capture the developmental context without overriding AA or SA.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">At what age were you first meaningfully exposed to each language — at home, at school, or in your immediate social environment?</div>
+        <div class="two-col">
+          <div><div class="field-lbl" id="aoe1-lbl">Language 1 — age of first exposure</div><input type="number" id="aoe1" min="0" max="30" placeholder="0"/></div>
+          <div><div class="field-lbl" id="aoe2-lbl">Language 2 — age of first exposure</div><input type="number" id="aoe2" min="0" max="30" placeholder="6"/></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S5: FoU ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">05</span>
+      <div class="sec-title">Frequency of Use</div>
+      <span class="sec-badge badge-la">LA — Behavioural</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Algorithm — FoU</div>
+        <div class="algo-formula">7 items rated on Likert 1–5:
+  Formal/professional, Social, Family,
+  Digital, Internal-Think,
+  Internal-Emotion, Internal-Count
+
+Internal sub-index computed first:
+  Internal = (Think + Emotion + Count) / 3
+
+Then FoU average across 5 domains:
+  FoU_EL = (Formal + Social + Family
+          + Digital + Internal)_EL / 25
+  FoU_MT = same formula for MT
+
+Each score ∈ [0.2, 1.0]
+FoU_gap = (FoU_EL − FoU_MT) / 0.8
+Range: [−1, +1]</div>
+        <div class="algo-note">Internal monologue is sub-indexed into thinking, emotional processing, and counting before entering FoU — these tap distinct cognitive systems (narrative self, affective access, automated retrieval). Counting is particularly diagnostic: it defaults to the earliest-acquired language and rarely shifts even in highly proficient L2 speakers.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">Rate how frequently you use each language in each domain or process. 1 = Never, 2 = Rarely, 3 = Sometimes, 4 = Often, 5 = Very often. For internal processes, rate which language you default to.</div>
+        <div class="l5-header">
+          <div class="l5-hlbl">Domain / process</div>
+          <div class="l5-hcell">1</div><div class="l5-hcell">2</div>
+          <div class="l5-hcell">3</div><div class="l5-hcell">4</div><div class="l5-hcell">5</div>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--eng-mid);margin-bottom:6px;" id="fou-el-label">English / L1</div>
+          <div class="likert5 eng-likert" id="fou-el-table"></div>
+        </div>
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--mt-mid);margin-bottom:6px;" id="fou-mt-label">Mother Tongue / L2</div>
+          <div class="likert5 mt-likert" id="fou-mt-table"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PART 2 — CULTURAL PROXIMITY
+══════════════════════════════════════════════ -->
+<div class="part-divider">
+  <div class="part-banner">
+    <span class="part-num">Part 02</span>
+    <span class="part-title">Cultural Proximity</span>
+  </div>
+  <div class="part-body">Cultural Resonance (CR) and Internal Language Hierarchy (iLHI) are measured separately on bipolar ±2 scales, then combined into a Tension Score T = |iLHI − CR| / 4 ∈ [0, 1]. T is the primary outcome: higher T indicates a larger split between where you feel culturally rooted and which language you experience as prestigious, which is the operationalisation of MOE bilingual policy tension.</div>
+</div>
+
+<!-- ══ S6: CR ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">06</span>
+      <div class="sec-title">Cultural Resonance</div>
+      <span class="sec-badge badge-cp">CP — Dimension 1</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Algorithm — CR</div>
+        <div class="algo-formula">Bipolar scale: −2 to +2 per item
+  −2 = strongly MT cultural resonance
+  −1 = mildly MT cultural resonance
+   0 = neutral / no clear pull
+  +1 = mildly English cultural resonance
+  +2 = strongly English cultural resonance
+
+CR_raw = mean of all item scores
+Range: [−2, +2]
+
+Negative → MT culturally dominant
+Positive → English culturally dominant
+
+CR is kept separate from iLHI — they can
+and do run in opposite directions, and their
+absolute divergence is the tension measure.</div>
+        <div class="algo-note">CR taps the cultural identity layer of language — whether speaking a language connects you to family, heritage, and a sense of authentic selfhood. Each item has an explicit MT pole and EL pole to prevent unidirectional framing bias. A bipolar scale captures direction and intensity simultaneously.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">Each item has two poles — an MT/heritage side and an English side. Select the circle closest to where you stand. Left = MT-resonant, Right = English-resonant. Centre = no clear pull.</div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;">
+          <span style="color:var(--mt-mid);">← MT / heritage language</span>
+          <span style="color:var(--eng-mid);">English →</span>
+        </div>
+        <div class="bipolar-wrap" id="cr-table"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S7: iLHI ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">07</span>
+      <div class="sec-title">Internal Language Hierarchy</div>
+      <span class="sec-badge badge-cp">CP — Dimension 2</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Algorithm — iLHI</div>
+        <div class="algo-formula">Bipolar scale: −2 to +2 per item
+  −2 = strongly MT-privileging
+  −1 = mildly MT-privileging
+   0 = neutral / no hierarchy
+  +1 = mildly English-privileging
+  +2 = strongly English-privileging
+
+iLHI_raw = mean of all item scores
+Range: [−2, +2]
+
+── Tension Score ─────────────────────────────
+T = |iLHI_raw − CR_raw| / 4
+Range: [0, +1]
+
+0   → no tension (CR and iLHI are aligned)
+0.5 → moderate tension
+1.0 → maximum tension (poles fully opposed)
+
+High T: CR and iLHI point in opposite
+directions — the person feels culturally
+pulled one way but internalises prestige
+the other way. This is the diglossic split
+made psychological.</div>
+        <div class="algo-note">iLHI measures internalised prestige and shame — feelings that exist independently of fluency. Someone can be highly fluent in MT (high LA) while feeling ashamed to use it publicly (high positive iLHI). The absolute-gap T formula is chosen over multiplication because it locates where the respondent sits on each axis independently, making quadrant position and T interpretable together.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">Each item has two poles. Select the circle that best reflects your position. Left = MT-privileging, Right = English-privileging. Centre = no clear hierarchy.</div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:10px;font-family:'IBM Plex Mono',monospace;">
+          <span style="color:var(--mt-mid);">← MT / heritage language</span>
+          <span style="color:var(--eng-mid);">English →</span>
+        </div>
+        <div class="bipolar-wrap" id="ilhi-table"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S8: MOE CONTEXT ══ -->
+<div class="sec">
+  <div class="sec-head">
+    <div class="sec-left">
+      <span class="sec-num">08</span>
+      <div class="sec-title">MOE Schooling Context</div>
+      <span class="sec-badge badge-gen">Moderating Variable</span>
+    </div>
+    <div class="sec-right">
+      <div class="algo">
+        <div class="algo-title">Role in model</div>
+        <div class="algo-formula">MOE track is a moderating variable —
+it contextualises and is expected to predict T:
+
+eLHI (external) is fixed for Singapore:
+  ≈ +0.7 English-dominant, encoded via:
+  — English as medium of instruction
+  — 1.1× AA weighting for English
+  — Labour market premium for English
+
+Differentiated/exempt MTL track is expected
+to predict higher T — the institution itself
+de-emphasised MT, likely amplifying iLHI
+English-dominance while leaving cultural
+heritage (CR) relatively intact.</div>
+        <div class="algo-note">Participants who took differentiated or were exempted from MTL represent the institutional extreme — MOE itself signalled their MT was less academically serious. This is expected to correlate with higher T: higher iLHI English prestige internalisation combined with unchanged or residual MT cultural resonance.</div>
+      </div>
+      <div class="card">
+        <div class="card-q">Which MTL track did you take under MOE?</div>
+        <div class="pill-group gen-pills" style="margin-bottom:1.25rem;">
+          <label><input type="radio" name="moe" value="higher"><span>Higher MTL</span></label>
+          <label><input type="radio" name="moe" value="standard"><span>Standard MTL</span></label>
+          <label><input type="radio" name="moe" value="diff"><span>Differentiated / oral-only</span></label>
+          <label><input type="radio" name="moe" value="exempt"><span>Exempted from MTL</span></label>
+          <label><input type="radio" name="moe" value="na"><span>Not in MOE system</span></label>
+        </div>
+        <div class="card-q">How did you experience your MTL in school?</div>
+        <div class="pill-group gen-pills" style="margin-bottom:1.25rem;">
+          <label><input type="radio" name="mtlexp" value="pride"><span>Source of pride / identity</span></label>
+          <label><input type="radio" name="mtlexp" value="neutral"><span>Neutral — just a subject</span></label>
+          <label><input type="radio" name="mtlexp" value="burden"><span>Felt like a burden</span></label>
+          <label><input type="radio" name="mtlexp" value="ornamental"><span>Culturally ornamental only</span></label>
+        </div>
+        <div class="card-q">Approximate decade of secondary schooling (for cohort analysis)</div>
+        <div class="pill-group gen-pills">
+          <label><input type="radio" name="cohort" value="pre90"><span>Before 1990</span></label>
+          <label><input type="radio" name="cohort" value="90s"><span>1990s</span></label>
+          <label><input type="radio" name="cohort" value="00s"><span>2000s</span></label>
+          <label><input type="radio" name="cohort" value="10s"><span>2010s</span></label>
+          <label><input type="radio" name="cohort" value="20s"><span>2020s / current</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="submit-wrap">
+  <button class="btn-go" onclick="compute()">Generate my identity tension profile</button>
+  <div class="err-msg" id="err">Please complete your language pair and ages of exposure before scoring.</div>
+</div>
+
+<!-- ══════════════════════════════════
+     RESULTS
+══════════════════════════════════ -->
+<div id="results">
+  <div class="res-eyebrow">Your bilingual identity tension profile</div>
+
+  <!-- ── TENSION HERO ── -->
+  <div style="margin-bottom:2px;">
+    <div class="tension-hero">
+      <div class="tension-hero-label">Part 2 — Cultural Proximity · Primary outcome</div>
+    </div>
+    <div class="tension-hero-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:2px;">
+      <div style="background:var(--tension);padding:1rem 2rem 1.5rem;display:flex;flex-direction:column;gap:4px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(247,245,240,0.5);">Tension Score T</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:3.8rem;line-height:1;color:#fff;" id="r-T">—</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.4);">|iLHI − CR| / 4 · range [0, 1]</div>
+        <div style="font-size:11px;color:rgba(247,245,240,0.65);margin-top:4px;font-style:italic;" id="r-T-tag">—</div>
+      </div>
+      <div style="background:var(--purple);padding:1rem 2rem 1.5rem;display:flex;flex-direction:column;gap:4px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(247,245,240,0.5);">CR — Cultural Resonance</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:3.8rem;line-height:1;color:#fff;" id="r-cr-score">—</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.4);">bipolar ±2 · neg=MT, pos=EL</div>
+        <div style="font-size:11px;color:rgba(247,245,240,0.65);margin-top:4px;font-style:italic;" id="r-cr-tag">—</div>
+      </div>
+      <div style="background:var(--mt-mid);padding:1rem 2rem 1.5rem;display:flex;flex-direction:column;gap:4px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(247,245,240,0.5);">iLHI — Internal Hierarchy</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:3.8rem;line-height:1;color:#fff;" id="r-ilhi-score">—</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.4);">bipolar ±2 · neg=MT, pos=EL</div>
+        <div style="font-size:11px;color:rgba(247,245,240,0.65);margin-top:4px;font-style:italic;" id="r-ilhi-tag">—</div>
+      </div>
+    </div>
+    <!-- T track bar -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-top:none;padding:1rem 1.5rem;border-radius:0 0 var(--r) var(--r);">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);">Tension magnitude — T ∈ [0, 1]</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);" id="r-T-bar-val">—</span>
+      </div>
+      <div class="tension-track">
+        <div id="r-T-dot" style="position:absolute;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;border:2px solid var(--surface);background:var(--tension);left:0%;transition:left 0.6s ease;"></div>
+      </div>
+      <div class="tension-ends"><span>0 — no tension (CR = iLHI)</span><span>0.5 — moderate</span><span>1.0 — maximum tension</span></div>
+      <div style="margin-top:0.75rem;font-size:12px;color:var(--ink2);font-style:italic;line-height:1.7;" id="r-T-interp">—</div>
+    </div>
+  </div>
+
+  <!-- ── QUADRANT PLOT ── -->
+  <div class="quad-svg-wrap">
+    <div class="quad-svg-title">CR × iLHI identity space — your position</div>
+    <div class="quad-svg-sub">x-axis: CR (−2 = strong MT culture, +2 = strong EL culture) · y-axis: iLHI (−2 = MT prestige, +2 = EL prestige)</div>
+    <div style="position:relative;width:100%;">
+      <svg id="quad-svg" viewBox="0 0 440 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:500px;display:block;margin:0 auto;">
+        <!-- quadrant fills — new taxonomy colours -->
+        <!-- TL: CR<0, iLHI>0 = Heritage-conflicted MT culture, EL prestige -->
+        <rect x="30" y="20" width="185" height="165" fill="#E8F2EC" rx="4"/>
+        <!-- TR: CR>0, iLHI>0 = Assimilated EL culture, EL prestige -->
+        <rect x="215" y="20" width="195" height="165" fill="#FBF3E0" rx="4"/>
+        <!-- BL: CR<0, iLHI<0 = Rooted MT culture, MT prestige -->
+        <rect x="30" y="185" width="185" height="175" fill="#EFECE5" rx="4"/>
+        <!-- BR: CR>0, iLHI<0 = Cross-pressured EL culture, MT prestige -->
+        <rect x="215" y="185" width="195" height="175" fill="#EDE8F5" rx="4"/>
+        <!-- axes -->
+        <line x1="30" y1="195" x2="410" y2="195" stroke="#1C1A16" stroke-width="1" opacity="0.2"/>
+        <line x1="215" y1="15" x2="215" y2="365" stroke="#1C1A16" stroke-width="1" opacity="0.2"/>
+        <!-- axis labels -->
+        <text x="30" y="12" font-family="IBM Plex Mono,monospace" font-size="8" fill="#A8A49A" letter-spacing="1">CR −2 (MT culture)</text>
+        <text x="315" y="12" font-family="IBM Plex Mono,monospace" font-size="8" fill="#A8A49A" letter-spacing="1">CR +2 (EL culture)</text>
+        <text x="32" y="30" font-family="IBM Plex Mono,monospace" font-size="8" fill="#A8A49A" letter-spacing="0.5">iLHI +2 (EL prestige)</text>
+        <text x="32" y="378" font-family="IBM Plex Mono,monospace" font-size="8" fill="#A8A49A" letter-spacing="0.5">iLHI −2 (MT prestige)</text>
+
+        <!-- TL: Heritage-conflicted -->
+        <text x="42" y="58" font-family="Instrument Serif,serif" font-size="12" fill="#2D6A4A">Heritage-conflicted</text>
+        <text x="42" y="73" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#2D6A4A" opacity="0.75">MT culture · EL prestige</text>
+        <text x="42" y="84" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#2D6A4A" opacity="0.6">high T — diglossic target</text>
+
+        <!-- TR: Assimilated EL -->
+        <text x="224" y="58" font-family="Instrument Serif,serif" font-size="12" fill="#8B6914">Assimilated EL</text>
+        <text x="224" y="73" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#8B6914" opacity="0.75">EL culture · EL prestige</text>
+        <text x="224" y="84" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#8B6914" opacity="0.6">low T — aligned EL</text>
+
+        <!-- BL: Rooted MT -->
+        <text x="42" y="235" font-family="Instrument Serif,serif" font-size="12" fill="#6B6760">Rooted MT</text>
+        <text x="42" y="250" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#6B6760" opacity="0.75">MT culture · MT prestige</text>
+        <text x="42" y="261" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#6B6760" opacity="0.6">low T — aligned MT</text>
+
+        <!-- BR: Cross-pressured EL -->
+        <text x="224" y="235" font-family="Instrument Serif,serif" font-size="12" fill="#7B5EA7">Cross-pressured EL</text>
+        <text x="224" y="250" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#7B5EA7" opacity="0.75">EL culture · MT prestige</text>
+        <text x="224" y="261" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#7B5EA7" opacity="0.6">moderate T — edge case</text>
+
+        <!-- tension annotation: high-T diagonal is TL region -->
+        <line x1="30" y1="20" x2="215" y2="195" stroke="#2D6A4A" stroke-width="1" stroke-dasharray="4,3" opacity="0.35"/>
+        <text x="68" y="128" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#2D6A4A" opacity="0.65" transform="rotate(-44,68,128)">↑ T peaks here</text>
+
+        <!-- user dot — positioned by JS -->
+        <circle id="quad-dot" cx="215" cy="195" r="9" fill="#1C1A16" stroke="#F7F5F0" stroke-width="2.5" opacity="0"/>
+        <circle id="quad-dot-ring" cx="215" cy="195" r="16" fill="none" stroke="#1C1A16" stroke-width="1" stroke-dasharray="3,2" opacity="0"/>
+        <text id="quad-dot-label" x="215" y="175" font-family="IBM Plex Mono,monospace" font-size="8" fill="#1C1A16" text-anchor="middle" opacity="0">you</text>
+      </svg>
+    </div>
+    <!-- quadrant strip -->
+    <div class="quad-strip">
+      <div class="quad-cell quad-hc-mt" id="q-hc-mt">
+        <div class="quad-active-marker"></div>
+        <div class="quad-cell-label">CR−MT · iLHI+EL</div>
+        <div class="quad-cell-name">Heritage-conflicted MT</div>
+        <div class="quad-cell-sub">MT culture, EL prestige — highest T, diglossic tension zone</div>
+      </div>
+      <div class="quad-cell quad-assim" id="q-assim">
+        <div class="quad-active-marker"></div>
+        <div class="quad-cell-label">CR+EL · iLHI+EL</div>
+        <div class="quad-cell-name">Assimilated EL</div>
+        <div class="quad-cell-sub">EL culture, EL prestige — low T, fully aligned English identity</div>
+      </div>
+      <div class="quad-cell quad-rooted" id="q-rooted">
+        <div class="quad-active-marker"></div>
+        <div class="quad-cell-label">CR−MT · iLHI−MT</div>
+        <div class="quad-cell-name">Rooted MT</div>
+        <div class="quad-cell-sub">MT culture, MT prestige — low T, coherent heritage identity</div>
+      </div>
+      <div class="quad-cell quad-cross" id="q-cross">
+        <div class="quad-active-marker"></div>
+        <div class="quad-cell-label">CR+EL · iLHI−MT</div>
+        <div class="quad-cell-name">Cross-pressured EL</div>
+        <div class="quad-cell-sub">EL culture, MT prestige — moderate T, edge case pattern</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CP INTERPRETATION ── -->
+  <div class="interp">
+    <div class="interp-head cp-head">Cultural Proximity — Tension interpretation</div>
+    <div class="interp-text" id="r-id-interp">—</div>
+    <div class="flag-box" id="r-id-flag"></div>
+  </div>
+
+  <!-- ── DIVIDER ── -->
+  <div style="display:flex;align-items:center;gap:12px;margin:2rem 0 1.5rem;">
+    <div style="flex:1;height:1px;background:var(--border);"></div>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);white-space:nowrap;">Part 1 results — language acquisition predictors</span>
+    <div style="flex:1;height:1px;background:var(--border);"></div>
+  </div>
+
+  <!-- LA sub-scores compact -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:1.5rem;">
+    <div style="background:var(--gold-light);border:1px solid rgba(139,105,20,0.15);border-radius:var(--r);padding:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">LA Overall</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:1.9rem;color:var(--gold);" id="r-la">—</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);">AA + SA + AoE</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--gold);margin-top:4px;" id="r-la-tag">—</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;">Academic Ability</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:1.9rem;color:var(--ink);" id="r-aa">—</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);">[−1, +1]</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;">Self-Assessment</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:1.9rem;color:var(--ink);" id="r-sa">—</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);">[−1, +1]</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;">AoE + FoU</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:1.9rem;color:var(--ink);" id="r-inst">—</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink3);">[−1, +1]</div>
+    </div>
+  </div>
+
+  <!-- Spectrum bars -->
+  <div class="spectrum-wrap">
+    <div class="spec-title">Language acquisition sub-indices on [−1, +1] spectrum</div>
+    <div class="spec-row">
+      <div class="spec-row-head"><span class="spec-row-label" style="color:var(--gold);">LA Overall (AA + SA + AoE)</span><span class="spec-row-val" id="spec-la-val">—</span></div>
+      <div class="spec-track"><div class="spec-marker" id="spec-la-dot" style="background:var(--gold);left:50%;"></div></div>
+      <div class="spec-ends"><span>−1 MT</span><span>0</span><span>+1 EL</span></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-row-head"><span class="spec-row-label">Academic Ability (AA)</span><span class="spec-row-val" id="spec-aa-val">—</span></div>
+      <div class="spec-track"><div class="spec-marker" id="spec-aa-dot" style="background:var(--ink);left:50%;"></div></div>
+      <div class="spec-ends"><span>−1 MT</span><span>0</span><span>+1 EL</span></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-row-head"><span class="spec-row-label">Self-Assessment (SA)</span><span class="spec-row-val" id="spec-sa-val">—</span></div>
+      <div class="spec-track"><div class="spec-marker" id="spec-sa-dot" style="background:var(--ink2);left:50%;"></div></div>
+      <div class="spec-ends"><span>−1 MT</span><span>0</span><span>+1 EL</span></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-row-head"><span class="spec-row-label">AoE + FoU (behavioural)</span><span class="spec-row-val" id="spec-inst-val">—</span></div>
+      <div class="spec-track"><div class="spec-marker" id="spec-inst-dot" style="background:var(--eng-mid);left:50%;"></div></div>
+      <div class="spec-ends"><span>−1 MT</span><span>0</span><span>+1 EL</span></div>
+    </div>
+  </div>
+
+  <!-- LA interpretation -->
+  <div class="interp">
+    <div class="interp-head la-head">Language Acquisition — proficiency interpretation</div>
+    <div class="interp-text" id="r-la-interp">—</div>
+    <div class="flag-box" id="r-la-flag"></div>
+  </div>
+
+  <!-- Regression summary -->
+  <div class="interp">
+    <div class="interp-head reg-head">Regression model — LA ~ T</div>
+    <div class="interp-text" id="r-research">—</div>
+    <div class="flag-box" id="r-moe-flag"></div>
+  </div>
+
+  <!-- ALGO SUMMARY -->
+  <div class="algo-footer">
+    <div class="algo-footer-title">Final computation summary</div>
+    <div class="algo-footer-formula" id="r-formula">—</div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       DATA EXPORT PANEL
+  ══════════════════════════════════ -->
+  <div id="export-panel" style="margin-top:1.5rem;background:var(--ink);color:var(--bg);border-radius:var(--r);padding:1.5rem 2rem;">
+
+    <div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:1rem;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(247,245,240,0.4);margin-bottom:4px;">Research data export</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:1.1rem;color:#fff;">Save your response row</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button onclick="copyCSVRow()" id="btn-copy" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 16px;background:rgba(255,255,255,0.08);color:rgba(247,245,240,0.85);border:1px solid rgba(255,255,255,0.15);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;">COPY ROW</button>
+        <button onclick="downloadCSV()" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 16px;background:var(--tension);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;">DOWNLOAD CSV</button>
+        <button onclick="sendToSheets()" id="btn-sheets" style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:8px 16px;background:rgba(45,106,74,0.6);color:#fff;border:1px solid rgba(45,106,74,0.4);border-radius:var(--r-sm);cursor:pointer;transition:all 0.15s;">SEND TO SHEETS ↗</button>
+      </div>
+    </div>
+
+    <!-- CSV preview -->
+    <div style="margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);letter-spacing:0.08em;margin-bottom:6px;">DATA ROW PREVIEW</div>
+      <div id="csv-preview" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.65);background:rgba(0,0,0,0.25);border-radius:var(--r-sm);padding:10px 14px;line-height:1.9;word-break:break-all;white-space:pre-wrap;">—</div>
+    </div>
+
+    <!-- Google Sheets setup -->
+    <details style="margin-top:0.5rem;">
+      <summary style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.10em;text-transform:uppercase;color:rgba(247,245,240,0.4);cursor:pointer;user-select:none;padding:6px 0;">▸ Google Sheets backend setup (click to expand)</summary>
+      <div style="margin-top:1rem;padding:1rem;background:rgba(0,0,0,0.2);border-radius:var(--r-sm);">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.55);line-height:2;">
+          <b style="color:rgba(247,245,240,0.8);">Step 1</b> — Create a new Google Sheet. Row 1 should be the header row (auto-created on first POST).<br/>
+          <b style="color:rgba(247,245,240,0.8);">Step 2</b> — In Google Sheets, go to <b>Extensions → Apps Script</b> and paste the script below.<br/>
+          <b style="color:rgba(247,245,240,0.8);">Step 3</b> — Deploy as a Web App: <b>Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone</b>.<br/>
+          <b style="color:rgba(247,245,240,0.8);">Step 4</b> — Copy the Web App URL and paste it into the field below.
+        </div>
+        <div style="margin-top:1rem;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);margin-bottom:6px;letter-spacing:0.08em;">APPS SCRIPT — paste into Extensions → Apps Script</div>
+          <pre id="apps-script-code" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.7);background:rgba(0,0,0,0.3);border-radius:var(--r-sm);padding:12px;overflow-x:auto;white-space:pre;line-height:1.7;">function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(Object.keys(data));
+  }
+  sheet.appendRow(Object.values(data));
+  return ContentService
+    .createTextOutput(JSON.stringify({status:'ok'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+          <button onclick="copyAppsScript()" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.08em;padding:5px 12px;background:rgba(255,255,255,0.07);color:rgba(247,245,240,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-sm);cursor:pointer;margin-top:6px;" id="btn-copy-script">COPY SCRIPT</button>
+        </div>
+        <div style="margin-top:1rem;">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(247,245,240,0.35);margin-bottom:6px;letter-spacing:0.08em;">YOUR WEB APP URL</div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/…/exec"
+              style="flex:1;font-family:'IBM Plex Mono',monospace;font-size:11px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.12);color:rgba(247,245,240,0.85);border-radius:var(--r-sm);padding:8px 10px;"/>
+            <button onclick="saveSheetsUrl()" style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:8px 14px;background:var(--eng-mid);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;white-space:nowrap;">SAVE URL</button>
+          </div>
+          <div id="sheets-url-status" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.4);margin-top:6px;"></div>
+        </div>
+      </div>
+    </details>
+
+    <div id="export-status" style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:rgba(247,245,240,0.45);margin-top:0.75rem;min-height:16px;"></div>
+  </div>
+
+</div><!-- /results -->
+</main>
+
+<footer>
+  <div class="foot-l">SMU Interdisciplinary Perspectives and Methods<br>Group 4 · BAI v4.0 · 2025<br>No data collected or stored.</div>
+  <div class="foot-r">Diglossia · Sapir–Whorf<br>Speech Act Theory<br>Self-Construction in bilingual Singapore</div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA DEFINITIONS
+// ═══════════════════════════════════════════
+const LANGS = {english:'Standard English',singlish:'Singlish',mandarin:'Mandarin',malay:'Malay',tamil:'Tamil',hokkien:'Hokkien / Teochew',cantonese:'Cantonese',other:'Other'};
+
+const FOU_DOMAINS = [
+  {id:'fou-formal',   label:'Formal / professional contexts'},
+  {id:'fou-social',   label:'Social settings with friends'},
+  {id:'fou-family',   label:'Family / home communication'},
+  {id:'fou-digital',  label:'Digital communication (text, social media)'},
+  {id:'fou-think',    label:'Internal monologue — thinking / reasoning'},
+  {id:'fou-emotion',  label:'Internal monologue — emotional processing'},
+  {id:'fou-count',    label:'Internal monologue — counting / arithmetic'},
+];
+
+const SA_MODS = [
+  {id:'sa-speak',  label:'Speaking'},
+  {id:'sa-write',  label:'Writing'},
+  {id:'sa-listen', label:'Listening'},
+  {id:'sa-comp',   label:'Comprehension / reading'},
+];
+
+// CR items — updated: cr-perform EL pole changed to "being my most authentic self"
+const CR_ITEMS = [
+  {id:'cr-family',   mt:'My MT connects me deeply to my family and close relationships',      eng:'English connects me more to my family and close relationships'},
+  {id:'cr-culture',  mt:'My cultural identity is primarily formed through my MT',              eng:'My cultural identity is primarily formed through English'},
+  {id:'cr-events',   mt:'I associate my MT with cultural traditions, rituals, and heritage',  eng:'I associate English with the cultural practices I care about most'},
+  {id:'cr-perform',  mt:'Speaking my MT feels like being my most authentic self',              eng:'Speaking English feels like being my most authentic self'},
+  {id:'cr-belong',   mt:'My MT is where I feel a sense of belonging and community',           eng:'English is where I feel a sense of belonging and community'},
+];
+
+const ILHI_ITEMS = [
+  {id:'ilhi-pride',    mt:'I feel prouder and more capable when speaking my MT',         eng:'I feel prouder and more capable when speaking English'},
+  {id:'ilhi-shame',    mt:'I feel no shame or inferiority when speaking my MT in public', eng:'I feel embarrassed or inferior when speaking my MT in public'},
+  {id:'ilhi-eco',      mt:'My MT has equal economic and professional opportunity',        eng:'English has significantly more economic opportunity and career value'},
+  {id:'ilhi-smart',    mt:'Speaking MT does not make me seem less educated',              eng:'Speaking MT in formal settings makes me seem less educated'},
+  {id:'ilhi-prestige', mt:'My MT carries social prestige in the contexts I care about',  eng:'English carries more social prestige in the contexts I care about'},
+];
+
+// ═══════════════════════════════════════════
+// BUILD UI
+// ═══════════════════════════════════════════
+function buildLikert5(containerId, items, prefix){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = items.map(item=>`
+    <div class="l5-row">
+      <div class="l5-q">${item.label}</div>
+      ${[1,2,3,4,5].map(v=>`
+        <div class="l5-cell">
+          <input type="radio" name="${prefix}-${item.id}" id="${prefix}-${item.id}-${v}" value="${v}"/>
+          <label for="${prefix}-${item.id}-${v}" id="lbl-${prefix}-${item.id}-${v}"></label>
+        </div>`).join('')}
+    </div>`).join('');
+  el.querySelectorAll('input[type=radio]').forEach(inp=>{
+    inp.addEventListener('change',()=>{
+      const name = inp.name;
+      for(let v=1;v<=5;v++){
+        const lbl = document.getElementById(`lbl-${name}-${v}`);
+        if(lbl) lbl.classList.remove('sel');
+      }
+      const selLbl = document.getElementById(`lbl-${name}-${inp.value}`);
+      if(selLbl) selLbl.classList.add('sel');
+      tick();
+    });
+  });
+}
+
+function buildBipolar(containerId, items){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = items.map(item=>`
+    <div class="bipolar-row">
+      <div class="bipolar-q-mt">${item.mt}</div>
+      <div class="bipolar-scale" id="bp-${item.id}">
+        ${[{cls:'bp-n2',val:'-2'},{cls:'bp-n1',val:'-1'},{cls:'bp-0',val:'0'},{cls:'bp-p1',val:'1'},{cls:'bp-p2',val:'2'}].map(o=>`
+          <div class="${o.cls}">
+            <input type="radio" name="bp-${item.id}" value="${o.val}" id="bp-${item.id}-${o.val.replace('-','n')}"/>
+            <label for="bp-${item.id}-${o.val.replace('-','n')}" id="bplbl-${item.id}-${o.val.replace('-','n')}"></label>
+          </div>`).join('')}
+      </div>
+      <div class="bipolar-q-eng">${item.eng}</div>
+    </div>`).join('');
+  el.querySelectorAll('input[type=radio]').forEach(inp=>{
+    inp.addEventListener('change',()=>{
+      const name = inp.name.replace('bp-','');
+      ['-2','-1','0','1','2'].forEach(v=>{
+        const lbl = document.getElementById(`bplbl-${name}-${v.replace('-','n')}`);
+        if(lbl) lbl.classList.remove('sel');
+      });
+      const selLbl = document.getElementById(`bplbl-${name}-${inp.value.replace('-','n')}`);
+      if(selLbl) selLbl.classList.add('sel');
+      tick();
+    });
+  });
+}
+
+function rebuildDynamic(){
+  const v1 = document.getElementById('lang1').value;
+  const v2 = document.getElementById('lang2').value;
+  const n1 = LANGS[v1]||'Language 1';
+  const n2 = LANGS[v2]||'Language 2';
+  const isELFirst = v1==='english'||v1==='singlish';
+  const elName = isELFirst ? n1 : n2;
+  const mtName = isELFirst ? n2 : n1;
+
+  document.getElementById('aoe1-lbl').textContent = n1+' — age of first exposure';
+  document.getElementById('aoe2-lbl').textContent = n2+' — age of first exposure';
+  document.getElementById('fou-el-label').textContent = elName+' (English / L1 side)';
+  document.getElementById('fou-mt-label').textContent = mtName+' (MT / heritage side)';
+  document.getElementById('sa-el-label').textContent = elName;
+  document.getElementById('sa-mt-label').textContent = mtName;
+  document.getElementById('grade-mt-lbl').textContent = mtName+' — O-level grade';
+
+  buildLikert5('fou-el-table', FOU_DOMAINS, 'el');
+  buildLikert5('fou-mt-table', FOU_DOMAINS, 'mt');
+  buildLikert5('sa-el-table', SA_MODS, 'sa-el');
+  buildLikert5('sa-mt-table', SA_MODS, 'sa-mt');
+  buildBipolar('cr-table', CR_ITEMS);
+  buildBipolar('ilhi-table', ILHI_ITEMS);
+}
+
+document.getElementById('lang1').addEventListener('change', rebuildDynamic);
+document.getElementById('lang2').addEventListener('change', rebuildDynamic);
+document.querySelectorAll('select,input').forEach(el=>el.addEventListener('change',tick));
+rebuildDynamic();
+
+// ═══════════════════════════════════════════
+// PROGRESS
+// ═══════════════════════════════════════════
+const TOTAL_SECS = 9;
+function tick(){
+  let filled = 0;
+  if(document.getElementById('lang1').value) filled++;
+  if(document.getElementById('lang2').value) filled++;
+  if(document.getElementById('aoe1').value) filled++;
+  if(document.getElementById('aoe2').value) filled++;
+  const pct = Math.min(1, filled/(TOTAL_SECS*0.6));
+  document.getElementById('prog').style.width = Math.round(pct*100)+'%';
+  document.getElementById('prog-txt').textContent = Math.round(pct*TOTAL_SECS)+' / '+TOTAL_SECS;
+}
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function getRadio(name){const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:null;}
+function getLikert5(prefix,items){
+  let total=0,count=0;
+  items.forEach(item=>{
+    const v=getRadio(`${prefix}-${item.id}`);
+    if(!v) return;
+    total+=parseInt(v); count++;
+  });
+  return count>0?total/count:null;
+}
+function getBipolar(items){
+  let total=0,count=0;
+  items.forEach(item=>{
+    const v=getRadio(`bp-${item.id}`);
+    if(!v) return;
+    total+=parseFloat(v); count++;
+  });
+  return count>0?total/count:null;
+}
+function fmt(v,decimals=2){return v>=0?'+'+v.toFixed(decimals):v.toFixed(decimals);}
+function fmtAbs(v,decimals=2){return v.toFixed(decimals);}
+function specPos(v){return ((v+1)/2*100).toFixed(1)+'%';}
+function dirTag(v){
+  if(v>0.5) return 'strongly English-dominant';
+  if(v>0.2) return 'moderately English-dominant';
+  if(v>0.05) return 'mildly English-dominant';
+  if(v>=-0.05) return 'near-balanced';
+  if(v>=-0.2) return 'mildly MT-dominant';
+  if(v>=-0.5) return 'moderately MT-dominant';
+  return 'strongly MT-dominant';
+}
+
+// ═══════════════════════════════════════════
+// COMPUTE
+// ═══════════════════════════════════════════
+function compute(){
+  const l1v = document.getElementById('lang1').value;
+  const l2v = document.getElementById('lang2').value;
+  const aoe1 = parseFloat(document.getElementById('aoe1').value);
+  const aoe2 = parseFloat(document.getElementById('aoe2').value);
+  const err = document.getElementById('err');
+  if(!l1v||!l2v||isNaN(aoe1)||isNaN(aoe2)){err.style.display='block';return;}
+  err.style.display='none';
+
+  const n1=LANGS[l1v]||'L1'; const n2=LANGS[l2v]||'L2';
+  const isELFirst = l1v==='english'||l1v==='singlish';
+  const elName = isELFirst?n1:n2;
+  const mtName = isELFirst?n2:n1;
+  const aoeEL = isELFirst?aoe1:aoe2;
+  const aoeMT = isELFirst?aoe2:aoe1;
+
+  // ── AoE (mild factor) ─────────────────────
+  const aoeELscore = aoeEL<=2?4:aoeEL<=6?3:aoeEL<=12?2:1;
+  const aoeMTscore = aoeMT<=2?4:aoeMT<=6?3:aoeMT<=12?2:1;
+  const aoeGap = (aoeELscore - aoeMTscore) / 4; // [−1,+1]
+
+  // ── FoU ──────────────────────────────────
+  function getFoUVal(prefix, domainId){
+    const v = getRadio(`${prefix}-${domainId}`);
+    return v ? parseInt(v) : null;
+  }
+  const fouExternalIds = ['fou-formal','fou-social','fou-family','fou-digital'];
+  const fouInternalIds = ['fou-think','fou-emotion','fou-count'];
+
+  function computeFoU(prefix){
+    let extSum=0, extCount=0;
+    fouExternalIds.forEach(id=>{
+      const v=getFoUVal(prefix,id);
+      if(v!==null){extSum+=v;extCount++;}
+    });
+    let intSum=0, intCount=0;
+    fouInternalIds.forEach(id=>{
+      const v=getFoUVal(prefix,id);
+      if(v!==null){intSum+=v;intCount++;}
+    });
+    const intAvg = intCount>0 ? intSum/intCount : null;
+    const domainTotal = extSum + (intAvg!==null?intAvg:0);
+    const domainCount = extCount + (intAvg!==null?1:0);
+    return domainCount>0 ? domainTotal/(domainCount*5) : 0.5;
+  }
+
+  const fouEL = computeFoU('el');
+  const fouMT = computeFoU('mt');
+  const fouGap = Math.max(-1,Math.min(1,(fouEL - fouMT) / 0.8)); // [−1,+1]
+
+  // Combined behavioural: AoE (mild 30%) + FoU (70%)
+  const BAI_inst = 0.3*aoeGap + 0.7*fouGap;
+
+  // ── AA ───────────────────────────────────
+  const gradeEL  = parseFloat(document.getElementById('grade-el').value)  || 0;
+  const gradeMT  = parseFloat(document.getElementById('grade-mt').value)  || 0;
+  const gradeHMT = parseFloat(document.getElementById('grade-hmt').value) || 0;
+  let aaGap = 0;
+  if(gradeEL>0 || gradeMT>0){
+    aaGap = (1.1*gradeEL - (gradeMT + 0.1*gradeHMT)) / 8.9;
+    aaGap = Math.max(-1, Math.min(1, aaGap));
+  }
+
+  // ── SA ───────────────────────────────────
+  const saELraw = getLikert5('sa-el', SA_MODS);
+  const saMTraw = getLikert5('sa-mt', SA_MODS);
+  let saGap = 0;
+  if(saELraw!==null&&saMTraw!==null){
+    const saELnorm = saELraw/5; const saMTnorm = saMTraw/5;
+    saGap = Math.max(-1,Math.min(1,(saELnorm-saMTnorm)/0.8));
+  }
+
+  // ── LA Overall: AA (primary) + SA + AoE_mild ──
+  // AA 60%, SA 25%, AoE 15% — AoE is "mild"
+  const BAI_la = 0.60*aaGap + 0.25*saGap + 0.15*aoeGap;
+
+  // ── CR ───────────────────────────────────
+  const crRaw = getBipolar(CR_ITEMS); // ∈ [−2, +2]; neg=MT, pos=EL
+
+  // ── iLHI ─────────────────────────────────
+  const ilhiRaw = getBipolar(ILHI_ITEMS); // ∈ [−2, +2]; neg=MT, pos=EL
+
+  // ── TENSION SCORE ─────────────────────────
+  // T = |iLHI_raw − CR_raw| / 4
+  // Range [0, 1]; 0 = no tension (aligned), 1 = maximum tension (fully opposed poles)
+  const T = (crRaw !== null && ilhiRaw !== null) ? Math.abs(ilhiRaw - crRaw) / 4 : 0;
+
+  // ── QUADRANT ──────────────────────────────
+  // CR: neg = MT culture, pos = EL culture
+  // iLHI: neg = MT prestige, pos = EL prestige
+  // TL (Heritage-conflicted MT): CR≤0, iLHI>0
+  // TR (Assimilated EL): CR>0, iLHI>0
+  // BL (Rooted MT): CR≤0, iLHI≤0
+  // BR (Cross-pressured EL): CR>0, iLHI≤0
+  let quadrant = 'rooted';
+  if(crRaw !== null && ilhiRaw !== null){
+    const crEL  = crRaw  > 0;
+    const ilhiEL = ilhiRaw > 0;
+    if(!crEL && ilhiEL)  quadrant = 'hc-mt';    // top-left: heritage-conflicted
+    else if(crEL && ilhiEL)  quadrant = 'assim'; // top-right: assimilated EL
+    else if(!crEL && !ilhiEL) quadrant = 'rooted'; // bottom-left: rooted MT
+    else                      quadrant = 'cross';   // bottom-right: cross-pressured
+  }
+
+  // ── BAI_identity (for spectrum / summary) ─
+  const crNorm = crRaw !== null ? crRaw / 2 : 0;
+  const ilhiNorm = ilhiRaw !== null ? ilhiRaw / 2 : 0;
+  const BAI_id = 0.5*crNorm + 0.5*ilhiNorm;
+
+  // ── RENDER RESULTS ────────────────────────
+
+  // T hero
+  document.getElementById('r-T').textContent = fmtAbs(T);
+  const tTag = T>0.7?'very high tension':T>0.5?'high tension — heritage-conflicted zone':T>0.3?'moderate tension — some identity split':T>0.1?'mild tension':'low tension — CR and iLHI broadly aligned';
+  document.getElementById('r-T-tag').textContent = tTag;
+  const tPct = (T*100).toFixed(1)+'%';
+  document.getElementById('r-T-dot').style.left = tPct;
+  document.getElementById('r-T-bar-val').textContent = fmtAbs(T)+' / 1.00';
+
+  const tInterp = T>0.5
+    ? `T = ${fmtAbs(T)}: substantial tension between your cultural resonance (CR ${crRaw!==null?crRaw.toFixed(2):'?'}/±2) and your internal language hierarchy (iLHI ${ilhiRaw!==null?ilhiRaw.toFixed(2):'?'}/±2). These two dimensions are pointing in opposite directions — this is the psychological operationalisation of the diglossic split created by MOE's bilingual policy. Your cultural belonging and your prestige internalisation are pulling against each other simultaneously.`
+    : T>0.25
+    ? `T = ${fmtAbs(T)}: moderate tension. CR (${crRaw!==null?crRaw.toFixed(2):'?'}) and iLHI (${ilhiRaw!==null?ilhiRaw.toFixed(2):'?'}) are not fully aligned — there is a partial divergence between cultural resonance and prestige hierarchy. The policy creates some ambivalence without a full identity split.`
+    : `T = ${fmtAbs(T)}: low tension. CR (${crRaw!==null?crRaw.toFixed(2):'?'}) and iLHI (${ilhiRaw!==null?ilhiRaw.toFixed(2):'?'}) are broadly aligned — your sense of cultural belonging and your internalised prestige hierarchy point in the same direction. Identity tension from the bilingual policy is low for this profile, though alignment can occur in either direction (Rooted MT or Assimilated EL).`;
+  document.getElementById('r-T-interp').textContent = tInterp;
+
+  // CR / iLHI
+  document.getElementById('r-cr-score').textContent = crRaw!==null?crRaw.toFixed(2):'—';
+  document.getElementById('r-cr-tag').textContent = crRaw!==null?(crRaw<-1?'strongly MT-resonant':crRaw<0?'mildly MT-resonant':crRaw===0?'neutral':crRaw<1?'mildly EL-resonant':'strongly EL-resonant'):'not completed';
+  document.getElementById('r-ilhi-score').textContent = ilhiRaw!==null?ilhiRaw.toFixed(2):'—';
+  document.getElementById('r-ilhi-tag').textContent = ilhiRaw!==null?(ilhiRaw<-1?'MT prestige dominant':ilhiRaw<0?'mild MT prestige':ilhiRaw===0?'neutral':ilhiRaw<1?'mild EL prestige':'strong EL prestige'):'not completed';
+
+  // SVG quad dot: x = CR axis [−2,+2] → [30,410]; y = iLHI [−2,+2] → [365,20] inverted
+  const dotX = crRaw!==null ? 30 + ((crRaw+2)/4)*380 : 215;
+  const dotY = ilhiRaw!==null ? 365 - ((ilhiRaw+2)/4)*345 : 195;
+  const dot = document.getElementById('quad-dot');
+  const dotRing = document.getElementById('quad-dot-ring');
+  const dotLabel = document.getElementById('quad-dot-label');
+  dot.setAttribute('cx', dotX.toFixed(1));
+  dot.setAttribute('cy', dotY.toFixed(1));
+  dotRing.setAttribute('cx', dotX.toFixed(1));
+  dotRing.setAttribute('cy', dotY.toFixed(1));
+  dotLabel.setAttribute('x', dotX.toFixed(1));
+  dotLabel.setAttribute('y', (dotY-14).toFixed(1));
+  const qColors = {'hc-mt':'#2D6A4A','assim':'#8B6914','rooted':'#6B6760','cross':'#7B5EA7'};
+  dot.setAttribute('fill', qColors[quadrant]||'#1C1A16');
+  dotRing.setAttribute('stroke', qColors[quadrant]||'#1C1A16');
+  dot.setAttribute('opacity','1');
+  dotRing.setAttribute('opacity','0.5');
+  dotLabel.setAttribute('opacity','1');
+
+  // Quadrant strip highlight
+  ['hc-mt','assim','rooted','cross'].forEach(q=>{
+    document.getElementById('q-'+q).classList.toggle('active', q===quadrant);
+  });
+
+  // LA sub-scores display
+  document.getElementById('r-la').textContent = fmt(BAI_la);
+  document.getElementById('r-aa').textContent = fmt(aaGap);
+  document.getElementById('r-sa').textContent = fmt(saGap);
+  document.getElementById('r-inst').textContent = fmt(BAI_inst);
+  document.getElementById('r-la-tag').textContent = dirTag(BAI_la);
+
+  function setSpec(dotId,valId,v){
+    document.getElementById(dotId).style.left = specPos(v);
+    document.getElementById(valId).textContent = fmt(v);
+  }
+  setSpec('spec-la-dot','spec-la-val', BAI_la);
+  setSpec('spec-aa-dot','spec-aa-val', aaGap);
+  setSpec('spec-sa-dot','spec-sa-val', saGap);
+  setSpec('spec-inst-dot','spec-inst-val', BAI_inst);
+
+  // ── CP / QUADRANT INTERPRETATION ─────────
+  const quadrantNames = {'hc-mt':'Heritage-conflicted MT','assim':'Assimilated EL','rooted':'Rooted MT','cross':'Cross-pressured EL'};
+  let idInterp = '';
+  const crStr = crRaw!==null?crRaw.toFixed(2):'?';
+  const ilhiStr = ilhiRaw!==null?ilhiRaw.toFixed(2):'?';
+
+  if(quadrant==='hc-mt') idInterp = `Quadrant: Heritage-conflicted MT culture, EL prestige. CR = ${crStr}/±2 (MT-resonant), iLHI = ${ilhiStr}/±2 (English prestige internalised). This is the primary diglossic target for this research. You feel culturally rooted in your MT heritage, but the internalised prestige hierarchy runs the other way — English carries the social and professional weight. These do not cancel; they coexist as competing pulls. T = ${fmtAbs(T)} captures this gap directly. This is the profile most consistent with MOE's bilingual policy creating genuine identity tension: the institution has embedded English prestige while MT cultural belonging remains, producing the conflict this research seeks to document.`;
+  else if(quadrant==='assim') idInterp = `Quadrant: Assimilated EL culture, EL prestige. CR = ${crStr}/±2 (EL-resonant), iLHI = ${ilhiStr}/±2 (English prestige internalised). CR and iLHI are aligned in the English direction — low tension (T = ${fmtAbs(T)}). Cultural resonance has shifted toward English alongside the prestige hierarchy. This is the structural outcome of English-medium instruction that the Goh Report's critics anticipated: the policy intended bilingualism but produced English-dominant identity formation. MT remains a formal subject without deep cultural attachment.`;
+  else if(quadrant==='rooted') idInterp = `Quadrant: Rooted MT culture, MT prestige. CR = ${crStr}/±2 (MT-resonant), iLHI = ${ilhiStr}/±2 (MT prestige retained). CR and iLHI are aligned in the MT direction — low tension (T = ${fmtAbs(T)}). This profile is relatively rare among post-1979 English-medium graduates and suggests strong home language maintenance, possibly HMT enrolment or immersion-context schooling. MT is experienced as both culturally resonant and prestigious — the diglossia H/L split has not been internalised.`;
+  else idInterp = `Quadrant: Cross-pressured EL culture, MT prestige. CR = ${crStr}/±2 (EL-resonant), iLHI = ${ilhiStr}/±2 (MT prestige retained). This is the theoretically unusual edge case: cultural resonance has shifted toward English, but the prestige hierarchy has not followed — MT still carries perceived social or cognitive value. T = ${fmtAbs(T)}. Possible explanations include strong community or family signalling of MT value despite personal EL cultural orientation, or an instrumental rather than identity-based assessment of MT prestige. Worth probing in the observational arm.`;
+
+  document.getElementById('r-id-interp').textContent = idInterp;
+
+  const idFlagEl = document.getElementById('r-id-flag');
+  if(quadrant==='hc-mt'){
+    idFlagEl.className='flag-box flag-tension';
+    idFlagEl.textContent='HERITAGE-CONFLICTED FLAG: MT cultural resonance and EL prestige internalisation are not cancelling — they are co-present as ambivalence. T = '+fmtAbs(T)+'. Averaging CR and iLHI would produce a misleadingly neutral score. This simultaneous pull is the primary psychological signature the research hypothesis predicts.';
+    idFlagEl.style.display='block';
+  } else if(quadrant==='rooted'){
+    idFlagEl.className='flag-box flag-good';
+    idFlagEl.textContent='ROOTED MT PROFILE: iLHI has not been captured by EL prestige despite English-medium schooling. T = '+fmtAbs(T)+'. This profile buffers against identity tension and is a useful comparison case for the regression model.';
+    idFlagEl.style.display='block';
+  } else if(quadrant==='cross'){
+    idFlagEl.className='flag-box flag-warn';
+    idFlagEl.textContent='CROSS-PRESSURED EDGE CASE: EL cultural resonance coexists with MT prestige internalisation — an atypical configuration. T = '+fmtAbs(T)+'. This pattern challenges the standard diglossia model and warrants qualitative follow-up to distinguish instrumental from identity-based MT valuation.';
+    idFlagEl.style.display='block';
+  } else {
+    idFlagEl.style.display='none';
+  }
+
+  // ── LA INTERPRETATION ─────────────────────
+  let laInterp = '';
+  if(Math.abs(BAI_la)<0.15) laInterp = `LA near-zero (${fmt(BAI_la)}). Formal competence is broadly symmetric — AA component: ${fmt(aaGap)}, SA component: ${fmt(saGap)}, AoE component: ${fmt(aoeGap)}. Note that the asymmetric AA scale already encodes institutional bias (1.1× English weighting), so near-zero LA does not reflect true equivalence — it reflects MOE's adjusted difficulty differential.`;
+  else if(BAI_la>0) laInterp = `LA at ${fmt(BAI_la)} — ${elName} formally dominant. AA gap: ${fmt(aaGap)}, SA gap: ${fmt(saGap)}, AoE (mild): ${fmt(aoeGap)}. This is the acquisition dimension most visible to policymakers — the grade differential confirms the structural outcome of English-medium instruction. Whether this formal dominance predicts tension (T = ${fmtAbs(T)}) is the central regression question.`;
+  else laInterp = `LA at ${fmt(BAI_la)} — ${mtName} formally stronger. This is an unusual finding under English-medium schooling. Check whether HMT enrolment, immersion schooling, or strong home literacy in ${mtName} explains this profile. A MT-dominant LA combined with quadrant position (${quadrantNames[quadrant]}) is a particularly informative data point for the regression.`;
+
+  const alienated = BAI_la > 0.3 && quadrant === 'hc-mt' && T > 0.4;
+  const laFlagEl = document.getElementById('r-la-flag');
+  if(alienated){
+    laFlagEl.className='flag-box flag-alert';
+    laFlagEl.textContent='ALIENATED COMPETENT SPEAKER PATTERN: High formal LA in English coexists with Heritage-conflicted MT quadrant position and high T ('+fmtAbs(T)+'). Grade metrics suggest bilingual success by MOE standards, but the identity profile reveals significant tension. This pattern is invisible to grade-based policy evaluation — precisely the gap this research aims to expose.';
+    laFlagEl.style.display='block';
+  } else laFlagEl.style.display='none';
+  document.getElementById('r-la-interp').textContent = laInterp;
+
+  // ── REGRESSION SUMMARY ───────────────────
+  const lagDominated = BAI_la > 0.2 && T > 0.4;
+  const lowAcqHighT  = BAI_la < 0 && T > 0.4;
+  let research = `Regression model: LA ~ T + (MOE track as moderator). T = ${fmtAbs(T)} is the primary predictor derived from Cultural Proximity; LA = ${fmt(BAI_la)} is the acquisition outcome. `;
+
+  if(T>0.5) research += `High T suggests strong identity tension — the regression hypothesis predicts this will be associated with constrained LA acquisition, particularly in the MT, as prestige internalisation (iLHI ${ilhiStr}) diverts motivational resources away from heritage language maintenance. `;
+  else if(T>0.25) research += `Moderate T suggests partial identity tension. The regression will test whether even this level of divergence between CR and iLHI is associated with differential LA outcomes beyond what MOE track alone would predict. `;
+  else research += `Low T indicates that CR and iLHI are broadly aligned. If LA is also balanced, this supports the null finding. If LA remains asymmetric despite low T, that implicates structural factors (AoE, FoU) rather than identity tension as the driver. `;
+
+  if(lagDominated) research += `The Alienated Competent Speaker pattern is present: high EL formal acquisition with high cultural identity tension. This is the policy critique in miniature — institutional success metrics mask the affective cost of MT de-emphasis. `;
+  if(lowAcqHighT) research += `Low MT acquisition combined with high tension is consistent with the hypothesis that internalised EL prestige (iLHI) suppresses MT learning motivation even where cultural resonance (CR) remains MT-attached. `;
+
+  research += `AoE component: ${fmt(aoeGap)} (mild contextual weight in LA). FoU component: ${fmt(fouGap)}. MOE track contextualises: ${getRadio('moe')||'not selected'}. Future regression across participants: T ~ AA_gap + SA_gap + AoE + FoU would test the directional causal chain — whether structural exposure generates identity tension.`;
+
+  document.getElementById('r-research').textContent = research;
+
+  const moe = getRadio('moe'); const mtlexp = getRadio('mtlexp');
+  let moeNote = '';
+  if(moe==='diff'||moe==='exempt') moeNote='MOE TRACK — DIFFERENTIATED/EXEMPT: Institutional de-emphasis of MT is the strongest structural predictor of high T. Expect elevated iLHI English-dominance in this cohort.';
+  else if(moe==='higher') moeNote='MOE TRACK — HIGHER MTL: Sustained institutional investment in MT. Expected to buffer T by reducing the gap between iLHI and CR.';
+  if(mtlexp==='burden') moeNote+=(moeNote?' ':'')+'MTL EXPERIENCE — BURDEN: Experiential burden is strongly associated with positive iLHI and likely contributes directly to your T score.';
+  else if(mtlexp==='ornamental') moeNote+=(moeNote?' ':'')+'MTL EXPERIENCE — ORNAMENTAL: MT experienced as a cultural marker without affective depth. This typically leaves CR intact while allowing iLHI to drift EL, producing higher T.';
+
+  const moeEl=document.getElementById('r-moe-flag');
+  if(moeNote){moeEl.className='flag-box flag-warn';moeEl.textContent=moeNote;moeEl.style.display='block';}
+  else moeEl.style.display='none';
+
+  // ── FORMULA SUMMARY ───────────────────────
+  document.getElementById('r-formula').textContent =
+`── Part 2: Cultural Proximity (outcome) ─────────────
+CR_raw   = ${crRaw!==null?crRaw.toFixed(2):'n/a'}   (bipolar ±2; neg=MT, pos=EL)
+iLHI_raw = ${ilhiRaw!==null?ilhiRaw.toFixed(2):'n/a'}   (bipolar ±2; neg=MT, pos=EL)
+
+T  = |iLHI_raw − CR_raw| / 4
+   = |${ilhiRaw!==null?ilhiRaw.toFixed(2):'?'} − ${crRaw!==null?crRaw.toFixed(2):'?'}| / 4
+   = ${fmtAbs(T)}     ← primary tension index [0, 1]
+
+Quadrant: ${({'hc-mt':'Heritage-conflicted MT (CR−MT, iLHI+EL)','assim':'Assimilated EL (CR+EL, iLHI+EL)','rooted':'Rooted MT (CR−MT, iLHI−MT)','cross':'Cross-pressured EL (CR+EL, iLHI−MT)'})[quadrant]||quadrant}
+
+── Part 1: Language Acquisition (predictors) ─────────
+AA_gap   = ${fmt(aaGap)}   (grades; 0.60 weight in LA)
+SA_gap   = ${fmt(saGap)}   (self-assess; 0.25 weight)
+AoE_gap  = ${fmt(aoeGap)}   (exposure age; 0.15 weight — mild)
+FoU_gap  = ${fmt(fouGap)}   (frequency; within behavioural)
+
+LA = 0.60·AA + 0.25·SA + 0.15·AoE
+   = ${fmt(BAI_la)}
+
+Behavioural (AoE+FoU)  = ${fmt(BAI_inst)}
+  [AoE 30%, FoU 70% within behavioural sub-index]
+
+── Regression frame ──────────────────────────────────
+LA ~ T  (identity tension predicts acquisition asymmetry?)
+${fmt(BAI_la)}  ~  ${fmtAbs(T)}
+
+MOE track: ${getRadio('moe')||'n/a'}  ·  MTL experience: ${getRadio('mtlexp')||'n/a'}`;
+
+  // ── STORE DATA GLOBALLY FOR EXPORT ───────
+  window._baiData = {
+    timestamp:        new Date().toISOString(),
+    respondent_id:    'R' + Date.now().toString(36).toUpperCase(),
+    lang_EL:          elName,
+    lang_MT:          mtName,
+    // Part 2 — CP (outcome)
+    T:                +fmtAbs(T),
+    CR_raw:           crRaw !== null ? +crRaw.toFixed(2) : '',
+    iLHI_raw:         ilhiRaw !== null ? +ilhiRaw.toFixed(2) : '',
+    quadrant:         quadrant,
+    // Part 1 — LA (predictors)
+    LA:               +BAI_la.toFixed(4),
+    AA_gap:           +aaGap.toFixed(4),
+    SA_gap:           +saGap.toFixed(4),
+    AoE_gap:          +aoeGap.toFixed(4),
+    FoU_gap:          +fouGap.toFixed(4),
+    BAI_behav:        +BAI_inst.toFixed(4),
+    grade_EL:         gradeEL,
+    grade_MT:         gradeMT,
+    grade_HMT:        gradeHMT,
+    aoe_EL:           aoeEL,
+    aoe_MT:           aoeMT,
+    moe_track:        getRadio('moe') || '',
+    mtl_experience:   getRadio('mtlexp') || '',
+    cohort:           getRadio('cohort') || '',
+  };
+
+  // populate CSV preview
+  buildCSVPreview();
+
+  const resultsEl = document.getElementById('results');
+  resultsEl.style.display='block';
+  setTimeout(()=>resultsEl.scrollIntoView({behavior:'smooth',block:'start'}),80);
+}
+
+// ═══════════════════════════════════════════
+// EXPORT FUNCTIONS
+// ═══════════════════════════════════════════
+
+const CSV_HEADERS = [
+  'timestamp','respondent_id','lang_EL','lang_MT',
+  'T','CR_raw','iLHI_raw','quadrant',
+  'LA','AA_gap','SA_gap','AoE_gap','FoU_gap','BAI_behav',
+  'grade_EL','grade_MT','grade_HMT','aoe_EL','aoe_MT',
+  'moe_track','mtl_experience','cohort'
+];
+
+function getCSVRow(includeHeader){
+  const d = window._baiData;
+  if(!d) return '';
+  const row = CSV_HEADERS.map(k => {
+    const v = d[k] !== undefined ? String(d[k]) : '';
+    return v.includes(',') ? `"${v}"` : v;
+  }).join(',');
+  if(includeHeader) return CSV_HEADERS.join(',') + '\n' + row;
+  return row;
+}
+
+function buildCSVPreview(){
+  const d = window._baiData;
+  if(!d) return;
+  // Show as aligned key: value pairs for readability
+  const lines = CSV_HEADERS.map(k => {
+    const val = d[k] !== undefined ? d[k] : '';
+    return k.padEnd(18) + val;
+  }).join('\n');
+  document.getElementById('csv-preview').textContent = lines;
+}
+
+function copyCSVRow(){
+  const row = getCSVRow(false);
+  if(!row){ setStatus('Nothing to copy — generate profile first.'); return; }
+  navigator.clipboard.writeText(row).then(()=>{
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = 'COPIED ✓';
+    setTimeout(()=>btn.textContent='COPY ROW', 2000);
+    setStatus('Row copied. Paste into your shared Google Sheet under the header row.');
+  }).catch(()=>{
+    // fallback: select the preview text
+    const pre = document.getElementById('csv-preview');
+    const range = document.createRange();
+    range.selectNodeContents(pre);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    setStatus('Could not auto-copy — text selected, press Ctrl/Cmd+C.');
+  });
+}
+
+function downloadCSV(){
+  const csv = getCSVRow(true);
+  if(!csv){ setStatus('Nothing to download — generate profile first.'); return; }
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `BAI_response_${window._baiData.respondent_id}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  setStatus('CSV downloaded — send the file to your research coordinator or paste the data row into the master sheet.');
+}
+
+function saveSheetsUrl(){
+  const url = document.getElementById('sheets-url').value.trim();
+  if(!url || !url.startsWith('https://script.google.com')){
+    document.getElementById('sheets-url-status').textContent = '⚠ URL should start with https://script.google.com/macros/…';
+    return;
+  }
+  localStorage.setItem('bai_sheets_url', url);
+  document.getElementById('sheets-url-status').textContent = '✓ URL saved in this browser.';
+}
+
+async function sendToSheets(){
+  // load saved URL if present
+  const saved = localStorage.getItem('bai_sheets_url');
+  if(saved && !document.getElementById('sheets-url').value){
+    document.getElementById('sheets-url').value = saved;
+  }
+  const url = document.getElementById('sheets-url').value.trim();
+  if(!url){
+    setStatus('⚠ Paste your Apps Script Web App URL in the Sheets setup section below first.');
+    // open the details
+    document.querySelector('#export-panel details').open = true;
+    return;
+  }
+  if(!window._baiData){ setStatus('Generate profile first.'); return; }
+
+  const btn = document.getElementById('btn-sheets');
+  btn.textContent = 'SENDING…';
+  btn.disabled = true;
+  setStatus('Sending to Google Sheets…');
+
+  try {
+    // Google Apps Script doPost requires no-cors mode when called from a file://
+    // Using a form-encoded body with fetch in no-cors gives us a silent success;
+    // the script writes to the sheet regardless.
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(window._baiData)
+    });
+    btn.textContent = 'SENT ✓';
+    setStatus('Response sent to Google Sheets. Check your sheet for the new row.');
+    setTimeout(()=>{btn.textContent='SEND TO SHEETS ↗';btn.disabled=false;}, 4000);
+  } catch(err) {
+    btn.textContent = 'SEND TO SHEETS ↗';
+    btn.disabled = false;
+    setStatus('Network error: ' + err.message + '. Use COPY ROW or DOWNLOAD CSV instead.');
+  }
+}
+
+function copyAppsScript(){
+  const code = document.getElementById('apps-script-code').textContent;
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn = document.getElementById('btn-copy-script');
+    btn.textContent = 'COPIED ✓';
+    setTimeout(()=>btn.textContent='COPY SCRIPT', 2000);
+  });
+}
+
+function setStatus(msg){
+  document.getElementById('export-status').textContent = msg;
+}
+
+// restore saved sheets URL on load
+window.addEventListener('DOMContentLoaded', ()=>{
+  const saved = localStorage.getItem('bai_sheets_url');
+  if(saved) document.getElementById('sheets-url').value = saved;
+});
+</script>
+</body>
+</html>
